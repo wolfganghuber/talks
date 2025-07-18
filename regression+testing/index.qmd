@@ -1,11 +1,11 @@
 ---
-title: 'Good scientific practice: <a href="https://www.huber.embl.de/msmb/Chap-Design.html">Design of High Throughput Experiments and their Analysis</a>'
-author: Susan Holmes, Wolfgang Huber
-date: 2025-05-27
+title: 'Analysis of variance, regression and testing'
+author: Wolfgang Huber
+date: 2025-07-22
 date-format: iso
 format:
   revealjs: 
-    theme: [default, GHGA.scss]
+    theme: [default, wh.scss]
     transition: slide
     scrollable: true
     slide-number: c/t
@@ -24,10 +24,11 @@ editor_options:
   chunk_output_type: console
 ---
 
-![](img/2025-HypothesisTesting-Huber_0.png)
-
 # Hypothesis Testing
 Wolfgang Huber
+
+![](img/title-page-dolomites.png)
+
 
 # How to make rational decisions based on noisy, finite data?
 
