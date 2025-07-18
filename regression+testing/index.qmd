@@ -29,11 +29,6 @@ Wolfgang Huber
 
 ![](img/title-page-dolomites.png)
 
-
-# How to make rational decisions based on noisy, finite data?
-
-![](img/2025-HypothesisTesting-Huber_1.png)
-
 # Examples: 
 Testing efficacy of a drug on people
 not an experiment — no complete control
@@ -132,9 +127,11 @@ Using multiple variables
 
 ![](img/2025-HypothesisTesting-Huber_15.gif)
 
----
+::: {.notes}
 
  Lady testing tea: claimed to be able to tell whether the tea or the milk was added first to a cup.
+
+:::
 
 ![](img/2025-HypothesisTesting-Huber_16.png)
 
@@ -165,9 +162,11 @@ These are sufficient, not necessary, conditions.
 Deviation from normality: test typically maintains FPR (“type-I error”) control. (It just no longer has provably optimal power.)Options: transform data, use permutations, simulations 
 Deviation from independence: FPR control is lost, p-values will likely be totally wrong (e.g., for positive correlation, too optimistic).No easy options: … simulations that keep the dependence structure (?)… batch adjustments that remove correlation (?)… empirical null — possible if you have many tests
 
----
+::: {.notes}
 
 Note that the null hypothesis, and the power of Wilcoxon test are different from the t-test
+
+:::
 
 # Avoid Fallacy
 
@@ -272,9 +271,11 @@ When performing several tests\, false positive error goes up:  forα = 0\.05 and
 
 ![](img/2025-HypothesisTesting-Huber_37.png)
 
----
+::: {.notes}
 
 Multiple testing has sometimes been presented as a ‘burden’, based on the observation that control of the FWER becomes increasingly hard as the number of tests increases.
+
+:::
 
 # Bonferroni Correction
 
@@ -287,9 +288,11 @@ Then see if anyone still remains below α.
 
 ![](img/2025-HypothesisTesting-Huber_39.png)
 
----
+::: {.notes}
 
 However, MT is also an opportunity. I like to explain this with this xkcd comic. 2 scientists have a machine that detects when sun goes nova. The machine has an error rate of 1/36. It beeps. The frequentist takes that data, computes that the type I error is 1/36<0.05… Bayesian knows a bit about astrophysics, that the sun’s mass is really too small, it will only become a red giant then white dwarf then cool off. That informs her prior - and the strong prior together with the weak data lead her to conclude that no nova has happened. Empirical Bayesian doesn’t actually know any physics - but she’s been around for a while and has observed that for many thousands of times before, there was no nova. In that case, the multiple testing gives her the opportunity to better analyse the data, and even without knowing much physics.
+
+:::
 
 # False Discovery Rate
 
@@ -299,11 +302,13 @@ However, MT is also an opportunity. I like to explain this with this xkcd comic.
 
 <span style="color:#0096ff">Method of Benjamini & Hochberg \(1995\)</span>
 
----
+::: {.notes}
 
 An important diagnostic plot in the analysis of such datasets is the p-value histogram. Uniform ‘background’ - non-d.e.; and peak of p-values at the left, d.e. genes
 Red line, blue line, intuitive estimate of FDP.
 This can be formalized with the concept of FDR
+
+:::
 
 # Method of Benjamini & Hochberg
 
@@ -311,12 +316,14 @@ This can be formalized with the concept of FDR
 
 ![](img/2025-HypothesisTesting-Huber_42.png)
 
----
+::: {.notes}
 
 In fact you don’t need to eyeball histograms to estimate or control FDR. The method of B&H essentially does what I showed you before, but in a more elegant manner. The alg. sorts the p-values…, last intersection. The implementation in R (function p.adjust in stats pkg) is impressively simple, just takes 4 lines of basic vector manipulations.
 
 
 Note:   a = …;  oa = order(a);  a[oa][order(oa)] == a
+
+:::
 
 # Not all Hypothesis Tests are Created Equal
 
@@ -326,12 +333,14 @@ Note:   a = …;  oa = order(a);  a[oa][order(oa)] == a
 
 ![](img/2025-HypothesisTesting-Huber_45.png)
 
----
+::: {.notes}
 
 Practitioners of course know about these types of covariates, and for instance in microarray/RNA-seq analysis it is common to remove genes that have too little signal. In eQTL (mammalian), distance cutoffs
 
 These slides: https://svn.ebi.ac.uk/huber/users/ignatiadis/presentation/1702-boston.tex
 Use xelatex
+
+:::
 
 # RNA-Seq p-value histogram stratified by average read count
 
@@ -387,8 +396,6 @@ Use xelatex
 * Can do data\-driven weighting \(“IHW”\)
   * Scales well to millions of hypotheses
   * Controls ‘overoptimism’
-
-
 ![](img/2025-HypothesisTesting-Huber_56.png)
 
 <span style="color:#ffffff">The p value is not enough</span>
@@ -407,9 +414,11 @@ Use xelatex
 
 <span style="color:#000000">different</span>  <span style="color:#000000"> </span>  <span style="color:#000000"> _F_ </span>  <span style="color:#000000">alt</span>
 
----
+::: {.notes}
 
 We can now similarly use this link to between the two-groups model and the BH procedure to understand what is going on in IHW, and for this we extend the TGM to the cond. TGM
 
 Similarly to the two-groups model, we are just interested in it being an approximation to the truth. In practice, the critical component is the conditional independence of $X_i$ and $P_i$ under the null hypothesis. In addition, we can only expect power gains when indeed $F_{\text{alt} \mid X_i = x}$ and $\pi_0(x)$ are not constant as functions of $x$.
+
+:::
 
