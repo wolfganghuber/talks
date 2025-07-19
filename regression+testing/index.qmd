@@ -167,11 +167,50 @@ $$
 
 # Linear model
 
-## estimating $\beta$
+$$
+ y = \beta_0 + \beta_1\,x_1 + \beta_2\,x_2 + \ldots + \varepsilon 
+$$
 
-## testing
+::: {.fragment}
+In vector notation
 
-## colinearity, confounding
+$$
+y = \beta \cdot x + \varepsilon 
+$$
+
+where now $x,\beta\in\mathbb{R}^n$ and $x = (1, x_1, x_2, \ldots)$.
+:::
+
+::: {.fragment}
+If we let $\beta$ be an $m\times n$ matrix, $y$ itself can be vector-valued ($y, \varepsilon \in \mathbb{R}^m$).
+:::
+
+<br>
+
+## But how to estimate $\beta$ ? {.fragment}
+
+::: {.fragment}
+Basic idea: minimize $\varepsilon$. 
+:::
+
+::: {.fragment}
+Ordinary least squares: $\Rightarrow$
+$$
+\hat{\beta} = (x^t\,x)^{-1}\,x^t\,y
+$$
+:::
+
+<br>
+
+## The connection to hypothesis testing  {.fragment}
+
+::: {.fragment}
+How sure are we that the __true__ $\beta$ is different from zero ?
+
+(or more generally, that it is outside a set $N\subset\mathbb{R}^n$)
+:::
+
+# colinearity, confounding
 
 ## blocking, pairing
 
