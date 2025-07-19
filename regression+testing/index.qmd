@@ -62,18 +62,108 @@ Wolfgang Huber
 
 # Analysis of variance
 
-Basic idea
+A set of observations
 
-\[
-Overall variance = Signal component 1 + Signal component 2 + \ldots + Rest  
-\]
+```{r}
+#| label: two2dpoints-blank
+#| echo: false
+#| message: false
+#| fig-width: 5
+#| fig-height: 5
+#| out-width: "50%"
+library("tidyverse")
+library("ggbeeswarm")
+set.seed(0xdada)
+beta = c(1, 1, 0.2)
+f = function(x, gr1, gr2) (beta[3] * x + beta[1] * as.integer(gr1) + beta[2] * as.integer(gr2))
 
-## just noise: 
-2D point cloud
-## two groups
-## more groups
-## univariate linear regression
-## multivariate linear regression
+simdat = tibble(
+  x = runif(100, min = 0, max = 10),
+  gr0 = factor(rep("", length(x))),
+  gr1 = factor(sample(c("indolent", "aggresive"), length(x), replace = TRUE)),
+  gr2 = factor(sample(c("hot", "cold"), length(x), replace = TRUE)),
+  y = rnorm(length(x), mean = f(x, gr1, gr2), sd = 0.3),
+)
+ylim = range(simdat$y)
+sd0 = sd(simdat$y) |> round(1)
+p = ggplot(simdat, aes(x = gr0, y = y)) + geom_boxplot() + geom_beeswarm(cex = 3) + xlab("") + ylim(ylim)
+p 
+```
+
+Standard deviation: `r sd0`.
+
+<br>
+
+### Find an explanatory factor
+
+```{r}
+#| label: two2dpoints-onefactor
+#| echo: false
+#| fig-width: 5
+#| fig-height: 5
+#| out-width: "50%"
+sd1 = group_by(simdat, gr2) |> summarise(v = var(y)) |> (\(x) round(sqrt(mean(x$v)), 1))()
+p + facet_grid(cols = vars(gr2))
+```
+
+Standard deviation: `r sd1`.
+
+<br>
+
+### And another explanatory factor
+
+```{r}
+#| label: two2dpoints-twofactors
+#| echo: false
+#| fig-width: 5
+#| fig-height: 5
+#| out-width: "50%"
+sd2 = group_by(simdat, gr1, gr2) |> summarise(v = var(y), .groups = "keep") |> (\(x) round(sqrt(mean(x$v)), 1))()
+p + facet_grid(rows = vars(gr1), cols = vars(gr2))
+```
+
+Standard deviation: `r sd2`.
+
+<br>
+
+### And another explanatory variable, this time continuous-valued
+
+```{r}
+#| label: two2dpoints-twofactors+continuous
+#| echo: false
+#| fig-width: 5
+#| fig-height: 5
+#| out-width: "50%"
+ggplot(simdat, aes(x = x, y = y)) + geom_point(aes(x = x)) + facet_grid(rows = vars(gr1), cols = vars(gr2)) + ylim(ylim)
+```
+
+Residuals: $y - \beta_1\,g1 - \beta_2\,g2 - \beta_3\,x$.
+
+```{r}
+#| label: two2dpoints-residuals
+#| echo: false
+#| fig-width: 5
+#| fig-height: 5
+#| out-width: "50%"
+sd3 = with(simdat, sd(y - f(x, gr1, gr2))) |> (\(x) paste(round(x, 1), collapse = ", "))()
+ggplot(simdat, aes(x = gr0, y = y - f(x, gr1, gr2))) + geom_beeswarm(cex = 3) + 
+  xlab("") + ylim(diff(range(ylim))*c(-0.5,.5))
+```
+
+Standard deviation: `r sd3`.
+
+<br>
+
+## Basic idea of ANOVA
+
+$$
+\text{Overall variance}  = 
+  \text{Signal component 1} + 
+  \text{Signal component 2} + 
+  \ldots + 
+  \text{Rest}  
+$$
+
 
 # Linear model
 
