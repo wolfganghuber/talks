@@ -161,6 +161,9 @@ then the GP reduces to Bayesian linear regression.
 
 # Fundamental tradeoffs in statistical decision making
 
+![](img/moose.jpg) 
+
+
 <span style="color:#000000">←bias                             accuracy→</span>
 
 <span style="color:#000000">Comes in various guises</span>
