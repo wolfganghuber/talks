@@ -1,5 +1,10 @@
 ---
-title: 'Analysis of variance, regression and testing'
+title: ""
+title-slide-attributes:
+  data-background-image: img/title-page-dolomites.png
+  data-background-size: contain
+  data-background-opacity: "1"
+  data-heading-color: #E84614;
 author: Wolfgang Huber
 date: 2025-07-22
 date-format: iso
@@ -11,6 +16,8 @@ format:
     slide-number: c/t
     show-slide-number: all
     auto-stretch: false
+    center-title-slide: false
+    logo: img/ubds3-logo.png
 # auto-stretch is a huge source of grief for slide layout, see https://quarto.org/docs/presentations/revealjs/advanced.html --> stretch
   html:
     code-line-numbers: false
@@ -24,24 +31,133 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Hypothesis Testing
+# Analysis of variance, regression and testing
 Wolfgang Huber
 
 ![](img/title-page-dolomites.png)
 
-# Examples: 
-Testing efficacy of a drug on people
-not an experiment — no complete control
-finite sample size
-Prioritising the results from a biological high-throughput experiment (e.g. RNA-seq differential expression; CRISPR screen)
-….
 
-+:  No understanding of mechanism involved / needed / desired
--:   Wouldn't we want to use any available understanding or ‘priors'?
+# Motivation
 
-<span style="color:#ffffff">Any fool can work with infinite data\.</span>
+## Test efficacy of a drug on people
 
-<span style="color:#ffffff">Statisticians do finity\.</span>
+- not an experiment — no complete control
+- finite sample size
+
+## Prioritise results from a biological high-throughput experiment 
+
+- e.g., RNA-seq differential expression
+- CRISPR screen
+
+## Understand impact of humidity on prevalence of leptospirosis
+
+::: {.incremental}
+-  No understanding of mechanism involved / needed / desired 
+-  Wouldn't we want to use any available understanding or ‘priors'?
+:::
+
+::: {.absolute top=100 left=200 width="800"}
+![Any fool can work with infinite data. Statisticians do finity](img/sherlock.png){.fragment}
+:::
+
+# Analysis of variance
+
+Basic idea
+
+\[
+Overall variance = Signal component 1 + Signal component 2 + \ldots + Rest  
+\]
+
+## just noise: 
+2D point cloud
+## two groups
+## more groups
+## univariate linear regression
+## multivariate linear regression
+
+# Linear model
+
+## estimating $\beta$
+
+## testing
+
+## colinearity, confounding
+
+## blocking, pairing
+
+
+# Generalizations
+
+## GLMs, Link functions
+
+## Splines
+
+## Gaussian processes
+
+
+Yes, a **Gaussian Process (GP)** can indeed be understood as a **generalization or extension of linear regression**, especially when viewed from a **Bayesian perspective**. Here's a breakdown of the connection:
+
+---
+
+### 🔧 Linear Regression (Bayesian view)
+
+In Bayesian linear regression, we assume the data is generated from a **linear function** with some Gaussian noise:
+
+$$
+y = \mathbf{x}^\top \mathbf{w} + \epsilon, \quad \epsilon \sim \mathcal{N}(0, \sigma^2)
+$$
+
+We place a **prior** on the weights:
+
+$$
+\mathbf{w} \sim \mathcal{N}(0, \tau^2 I)
+$$
+
+This leads to a **Gaussian prior** over functions $f(\mathbf{x}) = \mathbf{x}^\top \mathbf{w}$. When we marginalize over $\mathbf{w}$, the function values at input points follow a **multivariate Gaussian distribution**.
+
+---
+
+### 🌀 Gaussian Process as Infinite Linear Regression
+
+A Gaussian Process can be seen as an **infinite-dimensional generalization** of Bayesian linear regression:
+
+* Instead of explicitly parameterizing functions with a finite weight vector $\mathbf{w}$, we define a **distribution over functions** directly.
+* A GP is fully specified by its **mean function** $m(\mathbf{x})$ and **covariance function (kernel)** $k(\mathbf{x}, \mathbf{x}')$.
+
+Formally:
+
+$$
+f(\mathbf{x}) \sim \mathcal{GP}(m(\mathbf{x}), k(\mathbf{x}, \mathbf{x}'))
+$$
+
+In fact, if you choose a **linear kernel**:
+
+$$
+k(\mathbf{x}, \mathbf{x}') = \mathbf{x}^\top \mathbf{x}'
+$$
+
+then the GP reduces to Bayesian linear regression.
+
+---
+
+### 📈 Why GPs are more powerful
+
+* By choosing **nonlinear kernels** (e.g. RBF, Matérn), GPs can represent **nonlinear functions** while still retaining the analytical tractability of Gaussian distributions.
+* This makes them **nonparametric** models—unlike linear regression which has a fixed number of parameters, GPs can adapt complexity to the data.
+
+---
+
+### 🌳 Summary
+
+| Concept       | Linear Regression                               | Gaussian Process                    |
+| ------------- | ----------------------------------------------- | ----------------------------------- |
+| Function form | Linear in features                              | Can be nonlinear (via kernel)       |
+| Parameters    | Finite vector $\mathbf{w}$                      | Infinite-dimensional function space |
+| Prior         | Over parameters                                 | Over functions                      |
+| Posterior     | Gaussian over weights → predictive distribution | Gaussian over functions             |
+
+> So yes — a Gaussian Process **extends** linear regression by replacing a finite linear model with a flexible, probabilistic model over functions.
+
 
 # Fundamental tradeoffs in statistical decision making
 
