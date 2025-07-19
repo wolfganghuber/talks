@@ -29,6 +29,11 @@ execute:
 slide-level: 1
 editor_options: 
   chunk_output_type: console
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
 ---
 
 # Analysis of variance, regression and testing
@@ -200,17 +205,94 @@ $$
 $$
 :::
 
+::: {.fragment}
+Example: two groups, $x$ is either $(1,0)$ or $(1,1)$ $\Rightarrow$ 
+ - $\hat{\beta}_0 = \text{mean of 1st group}$
+ - $\hat{\beta}_1 = \text{difference between the mean of the 2nd group and that of the 1st}$.
+:::
+
 <br>
 
 ## The connection to hypothesis testing  {.fragment}
 
 ::: {.fragment}
-How sure are we that the __true__ $\beta$ is different from zero ?
+In the two groups example: how sure are we that the __true__ $\beta_1$ is different from zero ?
 
-(or more generally, that it is outside a set $N\subset\mathbb{R}^n$)
+This is the $t$-test!
+
+(More generally, could ask whether $\beta$ is outside a set $N\subset\mathbb{R}^n$)
+
+
 :::
 
-# colinearity, confounding
+# Colinearity, confounding
+
+```{r}
+#| label: colinear-1
+#| echo: !expr -1
+#| message: false
+library("MASS")
+data("Boston")
+head(Boston)
+```
+
+Housing Values in Suburbs of Boston.
+The `Boston` data frame has 506 rows and 14 columns.
+
+|    |                                        |
+|----|----------------------------------------|
+|crim|per capita crime rate by town|
+|zn|proportion of residential land zoned for lots over 25,000 sq.ft|
+|indus|proportion of non-retail business acres per town|
+|chas|Charles River proximity (1 if tract bounds river; 0 otherwise)|
+|nox|nitrogen oxides concentration (parts per 10 million)|
+|rm|average number of rooms per dwelling|
+|age|proportion of owner-occupied units built prior to 1940|
+|dis|weighted mean of distances to five Boston employment centres|
+|rad|index of accessibility to radial highways|
+|tax|full-value property-tax rate per $10,000|
+|ptratio|pupil-teacher ratio by town|
+|black|$1000(b−0.63)^2$, where $b$ is the proportion of blacks|
+|lstat|lower status of the population (percent)|
+|medv|median value of owner-occupied homes in \$1000s|
+
+```{r}
+bostonanno = read.table(textConnection("
+varname|meaning
+zn|proportion of residential land zoned for lots over 25,000 sq.ft
+indus|proportion of non-retail business acres per town
+chas|Charles River proximity (1 if tract bounds river; 0 otherwise)
+nox|nitrogen oxides concentration (parts per 10 million)
+rm|average number of rooms per dwelling
+age|proportion of owner-occupied units built prior to 1940
+dis|weighted mean of distances to five Boston employment centres
+rad|index of accessibility to radial highways
+tax|full-value property-tax rate per $10,000
+ptratio|pupil-teacher ratio by town
+black|$1000(b−0.63)^2$, where $b$ is the proportion of blacks
+lstat|lower status of the population (percent)
+medv|median value of owner-occupied homes in $1000s"), sep = "|", header = TRUE)
+kable(dplyr::filter(bostonanno, varname %in% c("nox, "rm", "dist)))
+```
+
+```{r}
+#| label: colinear-2
+#| echo: true
+#| message: false
+#| fig-width: 5
+#| fig-height: 5
+#| out-width: "60%"
+fit1 = lm(medv ~ nox + dis + rm, data = Boston)
+fit2 = lm(medv ~ dis + rm, data = Boston)
+coef(fit1)
+coef(fit2)
+
+library("GGally")
+ggpairs(dplyr::select(Boston, nox, dis, rm))
+
+library("corrplot")
+corrplot(cor(Boston), method = "circle", type = "upper", tl.cex = 0.7)
+```
 
 ## blocking, pairing
 
