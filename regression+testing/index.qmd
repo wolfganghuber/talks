@@ -163,98 +163,51 @@ then the GP reduces to Bayesian linear regression.
 
 ![](img/moose.jpg) 
 
+# Basic problem: binary decision
 
-<span style="color:#000000">←bias                             accuracy→</span>
+![value: some useful number computed from the data](img/twoclasses_z.png)
 
-<span style="color:#000000">Comes in various guises</span>
+False discovery rate
+$$
+\text{FDR} = \frac{\text{area shaded in light blue}}{\text{sum of areas to left of vertical bar (light blue + dark red)}}
+$$
 
-<span style="color:#0096ff">Accuracy vs Precision</span>
+For this, we need to know:
 
-<span style="color:#0096ff">Bias vs Variance</span>
+- blue curve: how is $x$ distributed if no effect
+- red curve: how is $x$ distributed if there is effect
+- the relative sizes of the blue and the red classes
 
-<span style="color:#0096ff">Model complexity vs overfitting</span>
+# Basic problem: binary decision
 
-![](img/2025-HypothesisTesting-Huber_2.png)
+![p value: suitably transformed version of the value from the preceding slide](img/twoclasses_p.png)
 
-![](img/2025-HypothesisTesting-Huber_3.png)
+$$
+\text{p} = \frac{\text{area shaded in light blue}}{\text{sum of the blue areas (=1)}}
+$$
 
-<span style="color:#000000">← precision            dispersion→ </span>
+For this, we need to know:
 
-![](img/2025-HypothesisTesting-Huber_4.png)
+- how is $x$ distributed if no effect
 
-![](img/2025-HypothesisTesting-Huber_5.png)
-
-<span style="color:#0096ff">Basic problem: binary decision</span>
-
-![](img/2025-HypothesisTesting-Huber_6.png)
-
-![](img/2025-HypothesisTesting-Huber_7.png)
-
-![](img/2025-HypothesisTesting-Huber_8.png)
-
-<span style="color:#000000">some useful number </span>  <span style="color:#000000"> _x_ </span>  <span style="color:#000000"> computed from the data</span>
-
-![](img/2025-HypothesisTesting-Huber_9.png)
-
-<span style="color:#000000">False discovery rate</span>
-
-<span style="color:#000000">For this\, we need to know:</span>
-
-<span style="color:#000000"> </span>  __the __  <span style="color:#2079b4">blue</span>  __ curve: how is __  <span style="color:#000000"> _x_ </span>  <span style="color:#000000"> </span>  __distributed __  <span style="color:#000000">if </span>  <span style="color:#000000"> __no__ </span>  <span style="color:#000000"> eff</span> ect <span style="color:#000000">\,</span>
-
-<span style="color:#000000"> </span>  __the __  <span style="color:#e31b1b">red</span>  __ curve: how is __  _x_  __ distributed if __  __there is__  __ effect__  <span style="color:#000000">\,</span>
-
-<span style="color:#000000"> the </span>  <span style="color:#000000"> __relative sizes__ </span>  <span style="color:#000000"> of the blue and the red classes\.</span>
-
-<span style="color:#0096ff">Basic problem: binary decision</span>
-
-![](img/2025-HypothesisTesting-Huber_10.png)
-
-![](img/2025-HypothesisTesting-Huber_11.png)
-
-![](img/2025-HypothesisTesting-Huber_12.png)
-
-<span style="color:#000000">another useful number\, computed from </span>  <span style="color:#000000"> _x_ </span>  <span style="color:#000000">:     </span>  <span style="color:#000000"> _p_ </span>
-
-![](img/2025-HypothesisTesting-Huber_13.png)
-
-![](img/2025-HypothesisTesting-Huber_14.png)
-
-<span style="color:#000000">For this\, we need to know:</span>
-
-<span style="color:#000000"> </span>  __the __  <span style="color:#2079b4">blue</span>  __ curve: how is __  <span style="color:#000000"> _x_ </span>  <span style="color:#000000"> </span>  __distributed __  <span style="color:#000000">if </span>  <span style="color:#000000"> __no__ </span>  <span style="color:#000000"> eff</span> ect <span style="color:#000000">\,</span>
-
-<span style="color:#000000"> </span>  __the __  <span style="color:#e31b1b">red</span>  __ curve: how is __  _x_  __ distributed if __  __there is__  __ effect__  <span style="color:#000000">\,</span>
-
-<span style="color:#000000"> the </span>  <span style="color:#000000"> __relative sizes__ </span>  <span style="color:#000000"> of the blue and the red classes\.</span>
-
-<span style="color:#0096ff">Hypothesis testing</span>
-
-<span style="color:#000000">Some theory/model and no or few parameters</span>
-
-<span style="color:#000000">No training data</span>
-
-<span style="color:#000000">More rigid/formulaic</span>
-
-<span style="color:#000000">Regulatory use</span>
-
-# Machine Learning
-Lots of free parameters
-Lots of training data
-Using multiple variables
-... or objects that are not even traditional variables (e.g. images)
-
-![](img/2025-HypothesisTesting-Huber_15.gif)
-
-::: {.notes}
-
- Lady testing tea: claimed to be able to tell whether the tea or the milk was added first to a cup.
-
+::: {.absolute top=600 left=300 width="800"}
+![](img/pvalue-what-could-go-wrong.png){.fragment}
 :::
 
-![](img/2025-HypothesisTesting-Huber_16.png)
+# 
+![](img/2025-HypothesisTesting-Huber_15.gif)
+ 
+| Hypothesis testing                              | Machine Learning                                |
+| ----------------------------------------------- | ----------------------------------------------- | 
+| Some theory/model and no or few parameters | Lots of free parameters | 
+| No training data | Lots of training data |
+| More rigid/formulaic | Using multiple variables |
+| Regulatory use | ... or objects that are not even traditional variables (kernel methods, DNN) |
 
-# Comparing a univariate (∈ℝ) measurement betweentwo groups:		the t-statistic
+
+# Comparing a univariate ($\in \mathbb{R}$) measurement between two groups: the $t$-statistic
+
+![](img/2025-HypothesisTesting-Huber_16.png)
 
 ![](img/2025-HypothesisTesting-Huber_17.png)
 
