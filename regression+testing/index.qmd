@@ -1,10 +1,5 @@
 ---
 title: ""
-title-slide-attributes:
-  data-background-image: img/title-page-dolomites.png
-  data-background-size: contain
-  data-background-opacity: "1"
-  data-heading-color: #E84614;
 author: Wolfgang Huber
 date: 2025-07-22
 date-format: iso
@@ -22,7 +17,6 @@ format:
     code-line-numbers: false
     embed-resources: true
 execute: 
-  echo: false
   warning: true
   error: false
   message: false
@@ -35,13 +29,12 @@ knitr:
     R.options:
       width: 120
 ---
+# Analysis of variance, regression and testing
+Wolfgang Huber
 
 <!-- NOTE
 auto-stretch is a huge source of grief for slide layout. See https://quarto.org/docs/presentations/revealjs/advanced.html, section on stretch
 -->
-
-# Analysis of variance, regression and testing
-Wolfgang Huber
 
 ![](img/title-page-dolomites.png)
 

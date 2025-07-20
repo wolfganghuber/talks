@@ -1,7 +1,7 @@
 # Regression+testing/
 cd clones/talks/regression+testing/
 mkdir regression+testing
-mv wh.scss index.html index_files regression+testing
+cp -rp index.html index_files wh.scss img regression+testing/
 mc mirror --overwrite regression+testing wwwhuber/www-huber/users/whuber/talks/regression+testing
 
 # Multivariate/PCA
