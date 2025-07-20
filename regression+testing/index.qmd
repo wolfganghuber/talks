@@ -467,292 +467,45 @@ For this, we need to know:
 | Regulatory use | ... or objects that are not even traditional variables (kernel methods, DNN) |
 
 
-# Comparing a univariate ($\in \mathbb{R}$) measurement between two groups: the $t$-statistic
+# Comparing two groups: the $t$-statistic
 
-![](img/2025-HypothesisTesting-Huber_16.png)
+For univariate real-valued data
 
-![](img/2025-HypothesisTesting-Huber_17.png)
+:::: {.columns}
 
-![](img/2025-HypothesisTesting-Huber_18.png)
+::: {.column width="60%"}
+
+<img src="img/t-test-schematic.png" with="400" style="border: 2px solid grey;">
+
+![](img/t-test-details.png){width="450" fig-align="center"}
+:::
+::: {.column width="40%"}
+![](img/t-test-exampledataTP53.png)
+:::
+
+::::
 
 # Parametric Theory vs Simulation
 
+:::: {.columns}
+
+::: {.column width="48%"}
 ![](img/2025-HypothesisTesting-Huber_19.png)
 
+![](img/2025-HypothesisTesting-Huber_22.png){width="300" fig-align="center"}
+:::
+
+::: {.column width="48%"}
 ![](img/2025-HypothesisTesting-Huber_20.png)
 
-<span style="color:#0096ff"> __Q__ </span>  <span style="color:#000000">:</span>
-
-<span style="color:#000000">Discuss pros and contras for each</span>
-
-![](img/2025-HypothesisTesting-Huber_21.jpg)
-
-![](img/2025-HypothesisTesting-Huber_22.png)
-
-# Common misunderstandings about t-statistic and t-distribution
-
-# “If the data with sample sizes n1 and n2 are identically normal distributed and independent,  then the t-test is optimal, and under H0, the t-statistic follows a t-distribution with ν=n1+n2-2.”
-These are sufficient, not necessary, conditions.
-Deviation from normality: test typically maintains FPR (“type-I error”) control. (It just no longer has provably optimal power.)Options: transform data, use permutations, simulations 
-Deviation from independence: FPR control is lost, p-values will likely be totally wrong (e.g., for positive correlation, too optimistic).No easy options: … simulations that keep the dependence structure (?)… batch adjustments that remove correlation (?)… empirical null — possible if you have many tests
-
-::: {.notes}
-
-Note that the null hypothesis, and the power of Wilcoxon test are different from the t-test
-
+![](img/2025-HypothesisTesting-Huber_21.jpg){width="200" fig-align="center"}
+:::
 :::
 
-# Avoid Fallacy
+<center>
+Discuss pros and contras for each</span>
+</center>
 
-![](img/2025-HypothesisTesting-Huber_23.png)
+# Continuation of this talk
 
-# The p value is the probability that the data could happen, under the condition that the null hypothesis is true.
-It is not the probability that the null hypothesis is true.
-Absence of evidence ⧧ evidence of absence
-
-# Limitations of p-value based hypothesis testing
-
-# Summarizing the data into one single number mushes together effect size and sample size
-Often, the 'null' is small (point-like), alternative is large (region-like). With enough power, even tiny effects are ‘significant’
-Correlation is not causation (confounders)
-No place to take into account plausibility or 'prior' knowledge
-
-# Don’t report absurdly small p values
-
-![](img/2025-HypothesisTesting-Huber_24.png)
-
-![](img/2025-HypothesisTesting-Huber_25.png)
-
-# Reporting p values, W. Huber, Cell Systems, DOI: 10.1016/j.cels.2019.03.001
-
-# What is p value hacking ?
-
-# On the same data, try different tests until one is significant
-On the same data, try different hypotheses until one is significant(HARKing - hypothesizing after results are known)
-Moreover…:retrospective data picking‘outlier’ removalthe 5% threshold and publication bias
-
-<span style="color:#000000">The ASA's Statement on p\-Values: Context\, Process\, and Purpose</span>
-
-<span style="color:#000000">Ronald L\. Wasserstein & Nicole A\. Lazara DOI: 10\.1080/00031305\.2016\.1154108</span>
-
-<span style="color:#0096ff">What can we do about this?</span>
-
-# The p-value is the right answer to the wrong question
-
-# Researchers (regulators, investors, etc.) usually want to know: 
-If I publish this finding (allow this drug, invest in this product, ...), what is the probability that I'll later be proven wrong  (cause harm, lose my money, …)?  (a.k.a. “false discovery probability”) 
-The p value is:
-If the finding is wrong (null hypothesis is true), what is the probability of seeing the data.
-Can we compute the answer to the interesting question instead?
-
-# Multiple Testing
-
-![](img/2025-HypothesisTesting-Huber_26.png)
-
-Many data analysis approaches in genomics employ item\-by\-itemtesting:
-
-Expression profiling
-
-Differential microbiome analysis
-
-Genetic or chemical compound screens
-
-Genome\-wide association studies
-
-Proteomics
-
-Variant calling
-
-…
-
-![](img/2025-HypothesisTesting-Huber_27.png)
-
-![](img/2025-HypothesisTesting-Huber_28.png)
-
-![](img/2025-HypothesisTesting-Huber_29.png)
-
-![](img/2025-HypothesisTesting-Huber_30.png)
-
-![](img/2025-HypothesisTesting-Huber_31.png)
-
-![](img/2025-HypothesisTesting-Huber_32.png)
-
-![](img/2025-HypothesisTesting-Huber_33.png)
-
-![](img/2025-HypothesisTesting-Huber_34.png)
-
-# False Positive Rate and False Discovery Rate
-
-![](img/2025-HypothesisTesting-Huber_35.png)
-
-<span style="color:#000000">FPR: fraction of FP among all true negatives</span>
-
-<span style="color:#000000">FDR: fraction of FP among hits called</span>
-
-<span style="color:#000000">Example:</span>
-
-<span style="color:#000000">20\,000 genes\, 500 are d\.e\.\,100 hits called\, 10 of them wrong\.</span>
-
-<span style="color:#000000">FPR: 10/19\,500 ≈ 0\.05%</span>
-
-<span style="color:#000000">FDR: 10/100 = 10%</span>
-
-# The Multiple Testing Burden
-
-When performing several tests\, false positive error goes up:  forα = 0\.05 and  _n _ indep\. tests\, probability of no false positive result is
-
-![](img/2025-HypothesisTesting-Huber_36.png)
-
-![](img/2025-HypothesisTesting-Huber_37.png)
-
-::: {.notes}
-
-Multiple testing has sometimes been presented as a ‘burden’, based on the observation that control of the FWER becomes increasingly hard as the number of tests increases.
-
-:::
-
-# Bonferroni Correction
-
-![](img/2025-HypothesisTesting-Huber_38.png)
-
-# For m tests, multiply each p-value with m.
-Then see if anyone still remains below α.
-
-# The Multiple Testing Opportunity
-
-![](img/2025-HypothesisTesting-Huber_39.png)
-
-::: {.notes}
-
-However, MT is also an opportunity. I like to explain this with this xkcd comic. 2 scientists have a machine that detects when sun goes nova. The machine has an error rate of 1/36. It beeps. The frequentist takes that data, computes that the type I error is 1/36<0.05… Bayesian knows a bit about astrophysics, that the sun’s mass is really too small, it will only become a red giant then white dwarf then cool off. That informs her prior - and the strong prior together with the weak data lead her to conclude that no nova has happened. Empirical Bayesian doesn’t actually know any physics - but she’s been around for a while and has observed that for many thousands of times before, there was no nova. In that case, the multiple testing gives her the opportunity to better analyse the data, and even without knowing much physics.
-
-:::
-
-# False Discovery Rate
-
-![](img/2025-HypothesisTesting-Huber_40.png)
-
-<span style="color:#000000">false discoveries</span>
-
-<span style="color:#0096ff">Method of Benjamini & Hochberg \(1995\)</span>
-
-::: {.notes}
-
-An important diagnostic plot in the analysis of such datasets is the p-value histogram. Uniform ‘background’ - non-d.e.; and peak of p-values at the left, d.e. genes
-Red line, blue line, intuitive estimate of FDP.
-This can be formalized with the concept of FDR
-
-:::
-
-# Method of Benjamini & Hochberg
-
-![](img/2025-HypothesisTesting-Huber_41.png)
-
-![](img/2025-HypothesisTesting-Huber_42.png)
-
-::: {.notes}
-
-In fact you don’t need to eyeball histograms to estimate or control FDR. The method of B&H essentially does what I showed you before, but in a more elegant manner. The alg. sorts the p-values…, last intersection. The implementation in R (function p.adjust in stats pkg) is impressively simple, just takes 4 lines of basic vector manipulations.
-
-
-Note:   a = …;  oa = order(a);  a[oa][order(oa)] == a
-
-:::
-
-# Not all Hypothesis Tests are Created Equal
-
-![](img/2025-HypothesisTesting-Huber_43.png)
-
-![](img/2025-HypothesisTesting-Huber_44.png)
-
-![](img/2025-HypothesisTesting-Huber_45.png)
-
-::: {.notes}
-
-Practitioners of course know about these types of covariates, and for instance in microarray/RNA-seq analysis it is common to remove genes that have too little signal. In eQTL (mammalian), distance cutoffs
-
-These slides: https://svn.ebi.ac.uk/huber/users/ignatiadis/presentation/1702-boston.tex
-Use xelatex
-
-:::
-
-# RNA-Seq p-value histogram stratified by average read count
-
-![](img/2025-HypothesisTesting-Huber_46.png)
-
-![](img/2025-HypothesisTesting-Huber_47.png)
-
-<span style="color:#000000">Problem: how to know the weights?</span>
-
-![](img/2025-HypothesisTesting-Huber_48.png)
-
-![](img/2025-HypothesisTesting-Huber_49.png)
-
-<span style="color:#0096ff">Independent hypothesis weighting \(IHW\)</span>
-
-![](img/2025-HypothesisTesting-Huber_50.png)
-
-<span style="color:#000000">Nikos Ignatiadis</span>
-
-<span style="color:#000000">Bioconductor package </span>  <span style="color:#000000"> __IHW__ </span>  <span style="color:#000000"> </span>
-
-<span style="color:#000000">Ignatiadis et al\.\, </span>
-
-<span style="color:#000000">Nature Methods 2016\, DOI 10\.1038/nmeth\.3885</span>
-
-<span style="color:#000000">JRSSB 2021\, DOI 10\.1111/rssb\.12411</span>
-
-<span style="color:#0096ff">RNA\-Seq example \(DESeq2\)</span>
-
-![](img/2025-HypothesisTesting-Huber_51.png)
-
-![](img/2025-HypothesisTesting-Huber_52.png)
-
-# Ranking is not monotonous in raw p-values
-
-![](img/2025-HypothesisTesting-Huber_53.png)
-
-![](img/2025-HypothesisTesting-Huber_54.png)
-
-# The decision boundaries is in two dimensions
-
-![](img/2025-HypothesisTesting-Huber_55.png)
-
-# Summary
-
-
-
-* Multiple testing is not a problem but an opportunity
-* Heterogeneity across tests
-* Informative covariates are often apparent to domain scientists
-  * independent of test statistic under the null
-  * informative on π1\, Falt
-* Can do data\-driven weighting \(“IHW”\)
-  * Scales well to millions of hypotheses
-  * Controls ‘overoptimism’
-![](img/2025-HypothesisTesting-Huber_56.png)
-
-<span style="color:#ffffff">The p value is not enough</span>
-
-![](img/2025-HypothesisTesting-Huber_57.png)
-
-<span style="color:#0096ff">Same p\-value\, different FDR / fdr</span>
-
-![](img/2025-HypothesisTesting-Huber_58.png)
-
-<span style="color:#000000">π0 = 0\.95</span>
-
-<span style="color:#000000">same</span>  <span style="color:#000000"> </span>  <span style="color:#000000"> _F_ </span>  <span style="color:#000000">alt</span>
-
-<span style="color:#000000">π0 = 0\.6</span>
-
-<span style="color:#000000">different</span>  <span style="color:#000000"> </span>  <span style="color:#000000"> _F_ </span>  <span style="color:#000000">alt</span>
-
-::: {.notes}
-
-We can now similarly use this link to between the two-groups model and the BH procedure to understand what is going on in IHW, and for this we extend the TGM to the cond. TGM
-
-Similarly to the two-groups model, we are just interested in it being an approximation to the truth. In practice, the critical component is the conditional independence of $X_i$ and $P_i$ under the null hypothesis. In addition, we can only expect power gains when indeed $F_{\text{alt} \mid X_i = x}$ and $\pi_0(x)$ are not constant as functions of $x$.
-
-:::
-
+In [Google Slides](https://docs.google.com/presentation/d/13S3A2gWKo0noX0nFIIJIfqKGsUBgTMnGLzLH9D8_c4g/edit?slide=id.p16#slide=id.p16)
