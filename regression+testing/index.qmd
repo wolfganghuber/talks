@@ -51,8 +51,8 @@ A set of observations
 #| echo: false
 #| message: false
 #| fig-width: 5
-#| fig-height: 5
-#| out-width: "50%"
+#| fig-height: 4
+#| out-width: "40%"
 library("tidyverse")
 library("ggbeeswarm")
 set.seed(0xdada)
@@ -82,8 +82,8 @@ Standard deviation: `r sd0`.
 #| label: two2dpoints-onefactor
 #| echo: false
 #| fig-width: 5
-#| fig-height: 5
-#| out-width: "50%"
+#| fig-height: 4
+#| out-width: "40%"
 sd1 = group_by(simdat, gr2) |> summarise(v = var(y)) |> (\(x) round(sqrt(mean(x$v)), 1))()
 p + facet_grid(cols = vars(gr2))
 ```
@@ -98,8 +98,8 @@ Standard deviation: `r sd1`.
 #| label: two2dpoints-twofactors
 #| echo: false
 #| fig-width: 5
-#| fig-height: 5
-#| out-width: "50%"
+#| fig-height: 4
+#| out-width: "40%"
 sd2 = group_by(simdat, gr1, gr2) |> summarise(v = var(y), .groups = "keep") |> (\(x) round(sqrt(mean(x$v)), 1))()
 p + facet_grid(rows = vars(gr1), cols = vars(gr2))
 ```
@@ -114,8 +114,8 @@ Standard deviation: `r sd2`.
 #| label: two2dpoints-twofactors+continuous
 #| echo: false
 #| fig-width: 5
-#| fig-height: 5
-#| out-width: "50%"
+#| fig-height: 4
+#| out-width: "40%"
 ggplot(simdat, aes(x = x, y = y)) + geom_point(aes(x = x)) + facet_grid(rows = vars(gr1), cols = vars(gr2)) + ylim(ylim)
 ```
 
@@ -125,8 +125,8 @@ Residuals: $y - \beta_1\,g1 - \beta_2\,g2 - \beta_3\,x$.
 #| label: two2dpoints-residuals
 #| echo: false
 #| fig-width: 5
-#| fig-height: 5
-#| out-width: "50%"
+#| fig-height: 4
+#| out-width: "40%"
 sd3 = with(simdat, sd(y - f(x, gr1, gr2))) |> (\(x) paste(round(x, 1), collapse = ", "))()
 ggplot(simdat, aes(x = gr0, y = y - f(x, gr1, gr2))) + geom_beeswarm(cex = 3) + 
   xlab("") + ylim(diff(range(ylim))*c(-0.5,.5))
@@ -146,6 +146,7 @@ $$
   \text{Rest}  
 $$
 
+<br><br><br><br><br><br><br>
 
 # Linear model
 
@@ -184,8 +185,9 @@ $$
 
 ::: {.fragment}
 Example: two groups, $x$ is either $(1,0)$ or $(1,1)$ $\Rightarrow$ 
+
  - $\hat{\beta}_0 = \text{mean of 1st group}$
- - $\hat{\beta}_1 = \text{difference between the mean of the 2nd group and that of the 1st}$.
+ - $\hat{\beta}_1 = \text{difference between mean of 2nd group and that of 1st}$.
 :::
 
 <br>
@@ -244,9 +246,9 @@ knitr::kable(dplyr::filter(bostonanno, varname %in% c("nox", "rm", "dis")))
 #| fig-width: 5
 #| fig-height: 5
 #| out-width: "60%"
-fit1 = lm(medv ~ nox + dis + rm, data = Boston)
-fit2 = lm(medv ~ dis + rm, data = Boston)
+fit1 = lm(medv ~ dis + rm, data = Boston)
 coef(fit1)
+fit2 = lm(medv ~ dis + rm + nox, data = Boston)
 coef(fit2)
 
 library("GGally")
@@ -264,19 +266,36 @@ knitr::kable(bostonanno)
 # Blocking, pairing
 
 ```{r}
-#| label: pairing
-#| echo: true
+#| label: pairing-1
 #| message: false
+#| fig-width: 3
+#| fig-height: 3
+#| out-width: "40%"
 library("BSDA")
 data("Fitness")
 ggplot(Fitness, aes(x = test, y = number)) + geom_beeswarm(size = 3)
 t.test(number ~ test, data = Fitness)
+```
+**The p value is not "significant".**
+
+```{r}
+#| label: pairing-2
 fit = lm(number ~ test + subject, data = Fitness)
 summary(fit)
+```
+
+**The p value for `testBefore` (=difference before - after) is "significant".**
+
+```{r}
+#| label: pairing-3
+#| fig-width: 3
+#| fig-height: 3
+#| out-width: "40%"
 FitnessW = tidyr::spread(Fitness, test, number) 
 t.test(FitnessW$After, FitnessW$Before, paired = TRUE)
 ggplot(FitnessW, aes(x = Before, y = After)) + geom_point() + geom_abline(col="blue")
 ```
+
 ```{r}
 #| label: attempts at better output
 #| eval: false
@@ -289,6 +308,8 @@ knitr::knit_hooks$set(output = function(x, options) {
   default_hook_output(x, options)
 })
 ```
+
+**The paired $t$-test is the same as the linear model with `subject` as a covariate.**
 
 # Generalizations
 
@@ -320,45 +341,38 @@ $$
 \log\frac{p}{1-p} = \beta \cdot x 
 $$
 
+<br><br>
+
 ## Generalized Linear Models
 
 - Model $\beta \cdot x$, 
 - (optional:) transform with a "link function" (e.g., $\exp$), 
 - insert the result as parameter into a statistical distribution.
 
+<br><br>
+
 ## Splines
 
+(...)
 
-
+<br><br>
 
 ## Gaussian processes
 
-
-Yes, a **Gaussian Process (GP)** can indeed be understood as a **generalization or extension of linear regression**, especially when viewed from a **Bayesian perspective**. Here's a breakdown of the connection:
-
----
-
-### 🔧 Linear Regression (Bayesian view)
-
-In Bayesian linear regression, we assume the data is generated from a **linear function** with some Gaussian noise:
+In a Bayesian view of linear regression, we assume the data is generated from a **linear function** with some Gaussian noise:
 
 $$
 y = \mathbf{x}^\top \mathbf{w} + \epsilon, \quad \epsilon \sim \mathcal{N}(0, \sigma^2)
 $$
-
-We place a **prior** on the weights:
+We place a **prior** on the weights,
 
 $$
-\mathbf{w} \sim \mathcal{N}(0, \tau^2 I)
+\mathbf{w} \sim \mathcal{N}(0, \tau^2 I),
 $$
 
-This leads to a **Gaussian prior** over functions $f(\mathbf{x}) = \mathbf{x}^\top \mathbf{w}$. When we marginalize over $\mathbf{w}$, the function values at input points follow a **multivariate Gaussian distribution**.
+and this leads to a **Gaussian prior** over functions $f(\mathbf{x}) = \mathbf{x}^\top \mathbf{w}$. When we marginalize over $\mathbf{w}$, the function values at input points follow a **multivariate Gaussian distribution**.
 
----
-
-### 🌀 Gaussian Process as Infinite Linear Regression
-
-A Gaussian Process can be seen as an **infinite-dimensional generalization** of Bayesian linear regression:
+A Gaussian Process can be seen as an **infinite-dimensional generalization** of the above.
 
 * Instead of explicitly parameterizing functions with a finite weight vector $\mathbf{w}$, we define a **distribution over functions** directly.
 * A GP is fully specified by its **mean function** $m(\mathbf{x})$ and **covariance function (kernel)** $k(\mathbf{x}, \mathbf{x}')$.
@@ -377,25 +391,10 @@ $$
 
 then the GP reduces to Bayesian linear regression.
 
----
-
-### 📈 Why GPs are more powerful
+### GPs are more powerful
 
 * By choosing **nonlinear kernels** (e.g. RBF, Matérn), GPs can represent **nonlinear functions** while still retaining the analytical tractability of Gaussian distributions.
 * This makes them **nonparametric** models—unlike linear regression which has a fixed number of parameters, GPs can adapt complexity to the data.
-
----
-
-### 🌳 Summary
-
-| Concept       | Linear Regression                               | Gaussian Process                    |
-| ------------- | ----------------------------------------------- | ----------------------------------- |
-| Function form | Linear in features                              | Can be nonlinear (via kernel)       |
-| Parameters    | Finite vector $\mathbf{w}$                      | Infinite-dimensional function space |
-| Prior         | Over parameters                                 | Over functions                      |
-| Posterior     | Gaussian over weights → predictive distribution | Gaussian over functions             |
-
-> So yes — a Gaussian Process **extends** linear regression by replacing a finite linear model with a flexible, probabilistic model over functions.
 
 
 # Hypothesis testing — why?
@@ -426,7 +425,7 @@ then the GP reduces to Bayesian linear regression.
 
 ![](img/moose.jpg) 
 
-# Basic problem: binary decision
+# Basic problem: making binary decision
 
 ![value: some useful number computed from the data](img/twoclasses_z.png)
 
@@ -441,7 +440,7 @@ For this, we need to know:
 - red curve: how is $x$ distributed if there is effect
 - the relative sizes of the blue and the red classes
 
-# Basic problem: binary decision
+# Basic problem: making binary decision
 
 ![p value: suitably transformed version of the value from the preceding slide](img/twoclasses_p.png)
 
