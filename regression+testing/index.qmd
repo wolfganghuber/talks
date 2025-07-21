@@ -293,19 +293,6 @@ t.test(FitnessW$After, FitnessW$Before, paired = TRUE)
 ggplot(FitnessW, aes(x = Before, y = After)) + geom_point() + geom_abline(col="blue")
 ```
 
-```{r}
-#| label: attempts at better output
-#| eval: false
-#| echo: false
-c(tt$p.value, tt$estimate)
-
-default_hook_output =  knitr::knit_hooks$get("output")
-knitr::knit_hooks$set(output = function(x, options) {
-  x <- gsub("p-value", "<span style='color:red; font-weight:bold;'>p-value</span>", x)
-  default_hook_output(x, options)
-})
-```
-
 **The paired $t$-test is the same as the linear model with `subject` as a covariate.**
 
 # Generalizations
