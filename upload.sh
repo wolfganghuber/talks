@@ -9,5 +9,5 @@ cd ownCloud/talks
 mc cp 2025-UBDS3-MultivariateAnalysis.pdf wwwhuber/www-huber/users/whuber/talks/
 
 # ML
-cd ownCloud/talks/2102-MoBi/
-mc cp Lec-ML.pdf wwwhuber/www-huber/users/whuber/talks/
+cd ownCloud/talks/
+mc cp Machine-Learning.pdf wwwhuber/www-huber/users/whuber/talks/

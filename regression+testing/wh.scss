@@ -1,7 +1,7 @@
 
 /*-- scss:defaults --*/
 $font-family-sans-serif: 'Helvetica';
-$presentation-font-size-root: 1.6em;
+$presentation-font-size-root: 1.5em;
 $presentation-line-height: 1.5;
 $margin-left: auto;
 $margin-right: auto;
@@ -13,6 +13,12 @@ $presentation-heading-color: #0066CC;
 $presentation-h1-font-size: 1.6em;
 $presentation-h2-font-size: 1.2em;
 $presentation-h3-font-size: 1.0em;
+
+.reveal h1 {
+    background-color: #FFDD00 ;
+    padding: 10px 0px 10px 20px;
+    border-radius: 10px;
+}
 
 /*--- manually placing the logo ---*/
 .reveal .slide-logo {
